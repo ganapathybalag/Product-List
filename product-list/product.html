@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product data</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .toast {
+          position: fixed;
+          width: 200px;
+          border-left: 5px solid green;
+          background-color: white;
+          display: none;
+          right: 10px;
+          top: 30px;
+        }
+      </style>
+</head>
+
+<body>
+    <div class="flex flex-col items-center justify-center mb-7 min-h-screen ">
+        <div class="w-full p-8 bg-red rounded-lg shadow-lg bg-red-100 mb-8">
+            <h2 class="mb-6 text-2xl font-bold text-red-800">PRODUCT FORM</h2>
+            <form class="space-y-4" id="productform" novalidate>
+                <!--Hidden Input-->
+                <input type="hidden" id="usingForUpdate" name="usingForUpdate" />
+                <!--Name-->
+                <div>
+                    <label for="name" class="block text-lg font-medium text-blue-700">PRODUCT NAME</label>
+                    <input type="text" id="name" name="name" placeholder="ENTER YOUR PRODUCT NAME"
+                        class="w-full px-4 py-2 mt-2 border border-green-300 rounded-lg focus:border-green-500" />
+                </div>
+                <!--Product Id-->
+                <div>
+                    <label for="id" class="block text-lg font-medium text-blue-700"> PRODUCT ID</label>
+                    <input type="text" id="id" name="id" placeholder="ENTER YOUR PRODUCT ID"
+                        class="w-full px-4 py-2 mt-2 border border-green-300 rounded-lg focus:border-green-500" />
+                </div>
+                <!--Product qty-->
+                <div>
+                    <label for="qty" class="block text-lg font-medium text-blue-700"> PRODUCT QTY</label>
+                    <input type="number" id="qty" name="qty" placeholder="ENTER YOUR PRODUCT QTY"
+                        class="w-full px-4 py-2 mt-2 border border-green-300 rounded-lg focus:border-green-500" />
+                </div>
+                <!--Product price-->
+                <div>
+                    <label for="price" class="block text-lg font-medium text-blue-700"> PRODUCT PRICE</label>
+                    <input type="number" id="price" name="price" placeholder="ENTER YOUR PRODUCT PRICE"
+                        class="w-full px-4 py-2 mt-2 border border-green-300 rounded-lg focus:border-green-500" />
+                </div>
+                <!--Product Description-->
+                <div>
+                    <label for="description" class="block text-lg font-medium text-blue-700"> PRODUCT
+                        DESCRIPTION</label>
+                    <input type="text" id="description" name="description" placeholder="ENTER YOUR PRODUCT DESCRIPTION"
+                        class="w-full px-4 py-2 mt-2 border border-green-300 rounded-lg focus:border-green-500" />
+                </div>
+                <!--created at-->
+                <div id="createdatWrapper">
+                    <label for="createdAt" class="text-lg font-medium text-blue-700">CREATED AT</label>
+                    <input type="date" id="createdAt" name="createdAt"
+                        class="w-full px-4 py-2 mt-1 border border-green-300 rounded-lg focus:border-blue-500" />
+                </div>
+                <!--Updated at-->
+                <div id="updatedatWrapper">
+                    <label for="updatedAt" class="text-lg font-medium text-blue-700">UPDATED AT</label>
+                    <input type="date" id="updatedAt" name="updatedAt"
+                        class="w-full px-4 py-2 mt-1 border border-green-300 rounded-lg focus:border-blue-500" />
+                </div>
+                <!--submit-->
+                <div>
+                    <button type="submit" id="submitBtn" onclick="formSubmit(event)"
+                        class="w-full px-2 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="w-full p-8 bg-red rounded-lg shadow-lg bg-red-100 mb-8">
+            <div class="flex justify-space-between flex-wrap gap-1" id="productLists">
+
+            </div>
+        </div>
+        <div class="w-full p-8 bg-red rounded-lg shadow-lg bg-red-100 mb-8">
+            <h2 class="mb-6 text-2xl font-bold text-red-800">PRODUCT ORDER FORM</h2>
+
+            <table class="table-fixed border-collapse border border-blue-300">
+                <thead>
+                    <tr class="bg-blue-100">
+                        <th class="p-2 border border-red-300 text-left text-sm font-medium text-red-700">S.NO
+                        </th>
+                        <th class="p-2 border border-red-300 text-left text-sm font-medium text-red-700">PRODUCT
+                            NAME</th>
+                        <th class="p-2 border border-red-300 text-left text-sm font-medium text-red-700">PRODUCT
+                            QTY</th>
+                        <th class="p-2 border border-red-300 text-left text-sm font-medium text-red-700">PRODUCT
+                            PRICE</th>
+                        <th class="p-2 border border-red-300 text-left text-sm font-medium text-red-700">TAX
+                        </th>
+                        <th class="p-2 border border-red-300 text-left text-sm font-medium text-red-700">TOTAL
+                        </th>
+                        <th class="p-2 border border-red-300 text-left text-sm font-medium text-red-700">ACTIONS
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <form class="space-y-4" id="productOrderForm" novalidate>
+                        <tr>
+                            <td class="p-2 border border-red-300 text-sm text-left"></td>
+                            <td class="p-2 border border-red-300 text-sm text-left">
+                                <select id="productDropdown" name="productDropdown"
+                                    class="p-1 border border-gray-300 rounded text-sm" onchange="productChange(event)">
+
+                                </select>
+                            </td>
+                            <td class="p-2 border border-red-300 text-sm text-left">
+                                <input type="number" name="productQty" id="productQty"
+                                    onchange="productQtyChange(event)"
+                                    class="p-1 border border-gray-300 rounded text-sm" />
+                            </td>
+                            <td class="p-2 border border-red-300 text-sm text-left">
+                                <input type="number" name="productPrice" id="productPrice" readonly
+                                    class="p-1 border border-gray-300 rounded text-sm" />
+                            </td>
+                            <td class="p-2 border border-red-300 text-sm text-left">
+                                <input type="number" name="productTax" id="productTax" readonly
+                                    class="p-1 border border-gray-300 rounded text-sm" />
+                            </td>
+                            <td class="p-2 border border-red-300 text-sm text-left">
+                                <input type="number" name="total" id="total" readonly
+                                    class="p-1 border border-gray-300 rounded text-sm" />
+                            </td>
+                            <td>
+                                <div class="flex justify-between items-center space-x-1">
+                                     <button type="submit" id="orderbtn" onclick="orderSubmit(event)" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                        ORDER
+                                    </button>
+                                    
+                                </div>
+
+                            </td>
+                        </tr>
+                    </form>
+
+                </tbody>
+                <tbody id="product-order-data"></tbody>
+            </table>
+            </form>
+        </div>
+    </div>
+    <div class="toast p-4" id="toast">
+    
+    </div>
+    <script type="text/javascript" src="./scripts/product.js"></script>
+</body>
+
+</html>
